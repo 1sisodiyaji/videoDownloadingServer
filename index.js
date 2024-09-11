@@ -13,7 +13,13 @@ const { threads } = require("nayan-media-downloader");
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:3000', 'https://video-downloader-nu-seven.vercel.app'],
+  methods: ['GET', 'POST'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 
 
 function downloadFromGeneric(url) { 
@@ -147,6 +153,11 @@ app.post('/video-downloader' , async (req, res) => {
       }
     }
 )
+
+app.get('/', (req, res) => {
+  console.log('GET request received at the server');
+  res.send('Welcome to the Video Downloader API!');
+});
 
 app.listen(8081, () => {
   console.log('Server running on 8081');
